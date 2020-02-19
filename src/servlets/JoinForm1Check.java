@@ -59,10 +59,9 @@ public class JoinForm1Check extends HttpServlet {
 		if( phone==null) phone= "";
 		
 
-		
-			Enumeration photo = multi.getFileNames();
-			String photo_file = (String) photo.nextElement();
-			photo_name = multi.getFilesystemName(photo_file);
+		Enumeration photo = multi.getFileNames();
+		String photo_file = (String) photo.nextElement();
+		photo_name = multi.getFilesystemName(photo_file);
 		photo_url = photo_path+"\\"+photo_name;
 //		System.out.println("photo_url"+photo_url);
 		

@@ -39,8 +39,8 @@ public class DAO {
 	public void insert_one (Model m) {
 		this.connOracle();
 		
-		String q = "insert into PERSONAL (NAME_KO, Makedate, Name_en, Refer_name, Birth, Addr, Email, Phone, Photo_URL)"
-				+ " values (?, to_date(?, 'YYYY. MM. DD.'), ?, ?, to_date(?, 'YYYYMM'), ?, ?, ?, ?)";
+		String q = "insert into PERSONAL (NAME_KO, Makedate, Name_en, Refer_name, Birth, Addr, Email, Phone, Photo_URL, IDX)"
+				+ " values (?, to_date(?, 'YYYY. MM. DD.'), ?, ?, to_date(?, 'YYYYMM'), ?, ?, ?, ?, APPLY_IDX_SEQ.NEXTVAL)";
 //				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
 //				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
 //				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
