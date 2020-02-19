@@ -67,7 +67,7 @@
 		</colgroup>
 		
 		<tr>
-		<th>생년월일</th> <td><input type = "text" name = "birth" ></td> <td rowspan="4" align="center" >사진첨부 필수 <br/><input type="file" name="photo" value = "첨부하기" accept="image/*" /></td>
+		<th>생년월일</th> <td><input type = "text" name = "birth" required="required"></td> <td rowspan="4" align="center" >사진첨부 필수 <br/><input type="file" name="photo" value = "첨부하기" accept="image/*" /></td>
 		</tr>
 		
 		<tr>

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -18,99 +19,152 @@ import model.Model;
 @WebServlet("/joinForm1Check")
 public class JoinForm1Check extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public JoinForm1Check() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public JoinForm1Check() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		// 인적사항
-		String name_ko = request.getParameter("name_ko");
-		String makedate = request.getParameter("makedate");
-		String name_en = request.getParameter("name_en");
-		String refer_name = request.getParameter("refer_name");
-		String birth = request.getParameter("birth");
-		String addr = request.getParameter("addr");
-		String email = request.getParameter("email");
-		String phone = request.getParameter("phone");
-		
 		String photo_path = request.getRealPath("applies");
-//			System.out.println(photo_path);
+//		System.out.println(photo_path);
 		int size = 10*1024*1024;
 		String photo_name = "";
 		String photo_url = "";
+	
+		Model m = new Model();
+		
 		try{
-			MultipartRequest multi = new MultipartRequest(request, photo_path, size, "UTF-8", new DefaultFileRenamePolicy());
+		MultipartRequest multi = new MultipartRequest(request, photo_path, size, "UTF-8", new DefaultFileRenamePolicy());
+		
+		// 인적사항
+		String name_ko = multi.getParameter("name_ko");
+//			System.out.println("name_ko__"+name_ko);
+		String makedate = multi.getParameter("makedate");
+		String name_en = multi.getParameter("name_en");
+		String refer_name = multi.getParameter("refer_name");
+			if( refer_name==null) refer_name = "";
+		String birth = multi.getParameter("birth");
+		String addr = multi.getParameter("addr");
+		if( addr==null)addr = "";
+		String email = multi.getParameter("email");
+		if( email==null) email= "";
+		String phone = multi.getParameter("phone");
+		if( phone==null) phone= "";
+		
+
+		
 			Enumeration photo = multi.getFileNames();
 			String photo_file = (String) photo.nextElement();
 			photo_name = multi.getFilesystemName(photo_file);
-		} catch (Exception e) {
-			System.out.println("ERR_MultipartRequest__"+e.getMessage());
-		}
 		photo_url = photo_path+"\\"+photo_name;
-		System.out.println("photo_url"+photo_url);
+//		System.out.println("photo_url"+photo_url);
 		
 		// 학력사항
-		String highs_year_f = request.getParameter("highs_year_f");
-		String highs_month_f = request.getParameter("highs_month_f");
-		String highs_year_l = request.getParameter("highs_year_l");
-		String highs_month_l= request.getParameter("highs_month_l");
-		String highs_name = request.getParameter("highs_name");
+		String highs_year_f = multi.getParameter("highs_year_f");
+		if( highs_year_f==null)highs_year_f = "";
+		String highs_month_f = multi.getParameter("highs_month_f");
+		if( highs_month_f==null)highs_month_f = "";
+		String highs_year_l = multi.getParameter("highs_year_l");
+		if(highs_year_l ==null)highs_year_l = "";
+		String highs_month_l= multi.getParameter("highs_month_l");
+		if( highs_month_l==null) highs_month_l= "";
+		String highs_name = multi.getParameter("highs_name");
+		if( highs_name==null)highs_name = "";
 			
-		System.out.println("highschool__"+highs_year_f + "__" +highs_month_f+ "__" +highs_year_l+ "__" +highs_month_l+ "__" +highs_name);
+//		System.out.println("highschool__"+highs_year_f + "__" +highs_month_f+ "__" +highs_year_l+ "__" +highs_month_l+ "__" +highs_name);
 		
-		String col_year_f = request.getParameter("col_year_f");
-		String col_month_f = request.getParameter("col_month_f");
-		String col_year_l = request.getParameter("col_year_l");
-		String col_month_l = request.getParameter("col_month_l");
-		String col_name = request.getParameter("col_name");
-		String col_maj = request.getParameter("col_maj");
-		String col_loc = request.getParameter("col_loc");
-		String col_addmaj = request.getParameter("col_addmaj");
-		String col_addmaj_name = request.getParameter("col_addmaj_name");
+		String col_year_f = multi.getParameter("col_year_f");
+		if(col_year_f ==null)col_year_f = "";
+		String col_month_f = multi.getParameter("col_month_f");
+		if(col_month_f ==null) col_month_f= "";
+		String col_year_l = multi.getParameter("col_year_l");
+		if( col_year_l==null)col_year_l = "";
+		String col_month_l = multi.getParameter("col_month_l");
+		if( col_month_l==null) col_month_l= "";
+		String col_name = multi.getParameter("col_name");
+		if(col_name ==null)col_name = "";
+		String col_maj = multi.getParameter("col_maj");
+		if( col_maj==null)col_maj = "";
+		String col_loc = multi.getParameter("col_loc");
+		if( col_loc==null) col_loc= "";
+		String col_addmaj = multi.getParameter("col_addmaj");
+		if( col_addmaj==null) col_addmaj= "";
+		String col_addmaj_name = multi.getParameter("col_addmaj_name");
+		if(col_addmaj_name ==null)col_addmaj_name = "";
 		
-		String univ_year_f = request.getParameter("univ_year_f");
-		String univ_month_f = request.getParameter("univ_month_f");
-		String univ_year_l = request.getParameter("univ_year_l");
-		String univ_month_l = request.getParameter("univ_month_l");
-		String univ_name = request.getParameter("univ_name");
-		String univ_maj = request.getParameter("univ_maj");
-		String univ_loc = request.getParameter("univ_loc");
-		String univ_addmaj = request.getParameter("univ_addmaj");
-		String univ_addmaj_name = request.getParameter("univ_addmaj_name");
+		String univ_year_f = multi.getParameter("univ_year_f");
+		if(univ_year_f ==null) univ_year_f= "";
+		String univ_month_f = multi.getParameter("univ_month_f");
+		if( univ_month_f==null) univ_month_f= "";
+		String univ_year_l = multi.getParameter("univ_year_l");
+		if( univ_year_l==null) univ_year_l= "";
+		String univ_month_l = multi.getParameter("univ_month_l");
+		if( univ_month_l==null) univ_month_l= "";
+		String univ_name = multi.getParameter("univ_name");
+		if( univ_name==null) univ_name= "";
+		String univ_maj = multi.getParameter("univ_maj");
+//		if( ==null) = "";
+		String univ_loc = multi.getParameter("univ_loc");
+//		if( ==null) = "";
+		String univ_addmaj = multi.getParameter("univ_addmaj");
+//		if( ==null) = "";
+		String univ_addmaj_name = multi.getParameter("univ_addmaj_name");
+//		if( ==null) = "";
 		
-		String mas_year_f = request.getParameter("mas_year_f");
-		String mas_month_f = request.getParameter("mas_month_f");
-		String mas_year_l = request.getParameter("mas_year_l");
-		String mas_month_l = request.getParameter("mas_month_l");
-		String mas_name = request.getParameter("mas_name");
-		String mas_maj = request.getParameter("mas_maj");
-		String mas_loc = request.getParameter("mas_loc");
+		String mas_year_f = multi.getParameter("mas_year_f");
+//		if( ==null) = "";
+		String mas_month_f = multi.getParameter("mas_month_f");
+//		if( ==null) = "";
+		String mas_year_l = multi.getParameter("mas_year_l");
+//		if( ==null) = "";
+		String mas_month_l = multi.getParameter("mas_month_l");
+//		if( ==null) = "";
+		String mas_name = multi.getParameter("mas_name");
+//		if( ==null) = "";
+		String mas_maj = multi.getParameter("mas_maj");
+//		if( ==null) = "";
+		String mas_loc = multi.getParameter("mas_loc");
+//		if( ==null) = "";
 		
-		String doc_year_f = request.getParameter("doc_year_f");
-		String doc_month_f = request.getParameter("doc_month_f");
-		String doc_year_l = request.getParameter("doc_year_l");
-		String doc_month_l = request.getParameter("doc_month_l");
-		String doc_name = request.getParameter("doc_name");
-		String doc_maj = request.getParameter("doc_maj");
-		String doc_loc = request.getParameter("doc_loc");
+		String doc_year_f = multi.getParameter("doc_year_f");
+//		if( ==null) = "";
+		String doc_month_f = multi.getParameter("doc_month_f");
+//		if( ==null) = "";
+		String doc_year_l = multi.getParameter("doc_year_l");
+//		if( ==null) = "";
+		String doc_month_l = multi.getParameter("doc_month_l");
+//		if( ==null) = "";
+		String doc_name = multi.getParameter("doc_name");
+//		if( ==null) = "";
+		String doc_maj = multi.getParameter("doc_maj");
+//		if( ==null) = "";
+		String doc_loc = multi.getParameter("doc_loc");
+//		if( ==null) = "";
 		
-		String grad_maj = request.getParameter("grad_maj");
-		String article = request.getParameter("article");
+		String grad_maj = multi.getParameter("grad_maj");
+//		if( ==null) = "";
+		String article = multi.getParameter("article");
+//		if( ==null) = "";
 		
-		String pause_year_f = request.getParameter("pause_year_f");
-		String pause_month_f = request.getParameter("pause_month_f");
-		String pause_year_l = request.getParameter("pause_year_l");
-		String pause_month_l = request.getParameter("pause_month_l");
-		String pause_reason = request.getParameter("pause_reason");
+		String pause_year_f = multi.getParameter("pause_year_f");
+//		if( ==null) = "";
+		String pause_month_f = multi.getParameter("pause_month_f");
+//		if( ==null) = "";
+		String pause_year_l = multi.getParameter("pause_year_l");
+//		if( ==null) = "";
+		String pause_month_l = multi.getParameter("pause_month_l");
+//		if( ==null) = "";
+		String pause_reason = multi.getParameter("pause_reason");
+//		if( ==null) = "";
 		
-		Model m = new Model();
+		
 		m.setName_ko(name_ko);
 		m.setMakedate(makedate);
 		m.setName_en(name_en);
@@ -170,10 +224,19 @@ public class JoinForm1Check extends HttpServlet {
 		m.setPause_month_f(pause_month_f);
 		m.setPause_month_l(pause_month_l);
 		m.setPause_reason(pause_reason);
+
+		} catch (Exception e) {
+			System.out.println("ERR_MultipartRequest__"+e.getMessage());
+		}
+
+		HttpSession ss = request.getSession();
+		ss.setAttribute("m", m);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("joinFinal.jsp");
-		request.setAttribute("m", m);
-		rd.forward(request, response);
+		response.sendRedirect("joinFinal.jsp");
+		
+//		RequestDispatcher rd = request.getRequestDispatcher("joinFinal.jsp");
+//		request.setAttribute("m", m);
+//		rd.forward(request, response);
 		
 	}
 
